@@ -8,7 +8,7 @@ import productsValidation from '../helpers/productsValidation';
 import tokenGenerate from '../helpers/tokenGenerate';
 import tokenValidation from '../helpers/tokenValidation';
 import userNameValidation from '../helpers/userNameValidation';
-import { ProductInterface } from '../Interface/ProductInterface';
+import { Product, ProductInterface } from '../Interface/ProductInterface';
 import {
   ResponseInterfaceError, 
   ResponseInterfaceProduct, 
@@ -87,9 +87,12 @@ Promise<ResponseInterfaceError | ResponseInterfaceOrder> => {
 
   const response = await models.createOrder(tokenV.id);
   
-  products.forEach(async (productId) => {
+  const newProducts = products.map(async (productId) => {
     await models.updateProduct(response.id, productId);
   });
+
+  await Promise.all(newProducts);
+
   return { status: StatusCode.CREATED, response: { order: { userId: response.userId, products } } };
 };
 
@@ -98,11 +101,12 @@ Promise<ResponseInterfaceError | ResponseInterfaceOrderId> => {
   const tokenV = await tokenValidation(token);
   if ('status' in tokenV) return tokenV;
 
-  const response = await models.getOrderById(id);
-  if (response.length === 0) {
+  const response : Product[] = await models.getOrderById(id);
+  
+  if (!response.length) {
     return { status: StatusCode.NOT_FOUND, response: { error: 'Order not found' } };
   }
-  const products = response.map((product) => product.id);
+  const products: number[] = response.map((product) => product.id);
 
   return { status: StatusCode.OK, response: { id, userId: tokenV.id, products } };
 };
