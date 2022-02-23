@@ -64,10 +64,16 @@ const updateProduct = async (order: number, productId: number) => {
   await connection.execute<ResultSetHeader>(query, [order, productId]);
 };
 
-const getOrderById = async (id: string): Promise<Product[]> => {
+const getProductsByOrderId = async (id: string | number): Promise<Product[]> => {
   const query = 'SELECT id FROM Trybesmith.Products WHERE orderId = ?';
   const [data] = await connection.execute(query, [id]);
   return data as Product[];
+};
+
+const getAllOrders = async () => {
+  const query = 'SELECT * FROM Trybesmith.Orders';
+  const [data] = await connection.execute(query);
+  return data as Order[];
 };
 
 export default {
@@ -77,5 +83,6 @@ export default {
   getProducts,
   createOrder,
   updateProduct,
-  getOrderById,
+  getProductsByOrderId,
+  getAllOrders,
 };

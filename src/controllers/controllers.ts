@@ -56,6 +56,14 @@ const getOrderById = async (req: Request<{ id: string }>, res: Response) => {
   return res.status(status).json(response);
 };
 
+const getAllOrders = async (req: Request<{ id: string }>, res: Response) => {
+  const { authorization }: IncomingHttpHeaders | undefined = req.headers;
+
+  const { status, response } = await services.getAllOrders(authorization);
+  
+  return res.status(status).json(response);
+};
+
 export default {
   createUser,
   getByName,
@@ -63,4 +71,5 @@ export default {
   getProducts,
   createOrder,
   getOrderById,
+  getAllOrders,
 };

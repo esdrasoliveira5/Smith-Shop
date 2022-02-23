@@ -8,6 +8,7 @@ import productsValidation from '../helpers/productsValidation';
 import tokenGenerate from '../helpers/tokenGenerate';
 import tokenValidation from '../helpers/tokenValidation';
 import userNameValidation from '../helpers/userNameValidation';
+import { Order } from '../Interface/OrderInterface';
 import { Product, ProductInterface } from '../Interface/ProductInterface';
 import {
   ResponseInterfaceError, 
@@ -16,6 +17,7 @@ import {
   ResponseInterfaceProducts,
   ResponseInterfaceOrder,
   ResponseInterfaceOrderId,
+  ResponseInterfaceAllOrders,
 } from '../Interface/ResponseInterface';
 import { UserInterface, UserLogin } from '../Interface/UserInterface';
 import models from '../models/models';
@@ -101,7 +103,7 @@ Promise<ResponseInterfaceError | ResponseInterfaceOrderId> => {
   const tokenV = await tokenValidation(token);
   if ('status' in tokenV) return tokenV;
 
-  const response : Product[] = await models.getOrderById(id);
+  const response : Product[] = await models.getProductsByOrderId(id);
   
   if (!response.length) {
     return { status: StatusCode.NOT_FOUND, response: { error: 'Order not found' } };
@@ -111,6 +113,28 @@ Promise<ResponseInterfaceError | ResponseInterfaceOrderId> => {
   return { status: StatusCode.OK, response: { id, userId: tokenV.id, products } };
 };
 
+const getAllOrders = async (token: string | undefined):
+Promise<ResponseInterfaceError | ResponseInterfaceAllOrders> => {
+  const tokenV = await tokenValidation(token);
+  if ('status' in tokenV) return tokenV;
+
+  const response : Order[] = await models.getAllOrders();
+  
+  const Orders = response.map(async (order) => {
+    const responseProducts = await models.getProductsByOrderId(order.id);
+
+    const productsIds: number[] = responseProducts.map((product) => product.id);
+    return {
+      ...order,
+      products: productsIds,
+    };
+  });
+
+  const newOrders = await Promise.all(Orders);
+  
+  return { status: StatusCode.OK, response: newOrders };
+};
+
 export default {
   createUser,
   getByName,
@@ -118,4 +142,5 @@ export default {
   getProducts,
   createOrder,
   getOrderById,
+  getAllOrders,
 };
