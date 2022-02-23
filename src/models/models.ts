@@ -22,7 +22,7 @@ const getByName = async (user: UserLogin): Promise<User[]> => {
   const { username, password } = user;
   const query = 'SELECT * FROM Trybesmith.Users WHERE username = ? AND password = ?';
   const [data] = await connection.execute(query, [username, password]);
-  return data;
+  return data as User[];
 };
 
 export default {
