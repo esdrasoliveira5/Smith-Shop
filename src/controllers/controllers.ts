@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import { IncomingHttpHeaders } from 'http';
+import { ProductInterface } from '../Interface/ProductInterface';
 import { UserInterface } from '../Interface/UserInterface';
 import services from '../services/services';
 
@@ -18,7 +20,17 @@ const getByName = async (req: Request, res: Response) => {
   return res.status(status).json(response);
 };
 
+const createProduct = async (req: Request, res: Response) => {
+  const { authorization }: IncomingHttpHeaders | undefined = req.headers;
+  const { name, amount } :ProductInterface = req.body;
+
+  const { status, response } = await services.createProduct(authorization, { name, amount });
+  
+  return res.status(status).json(response);
+};
+
 export default {
   createUser,
   getByName,
+  createProduct,
 };

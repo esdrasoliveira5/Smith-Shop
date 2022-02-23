@@ -3,6 +3,7 @@ import { ResultSetHeader } from 'mysql2';
 import connection from './connection';
 
 import { UserInterface, User, UserLogin } from '../Interface/UserInterface';
+import { Product, ProductInterface } from '../Interface/ProductInterface';
 
 const createUser = async (user: UserInterface): Promise<UserInterface> => {
   const { username, classe, level, password } = user;
@@ -25,7 +26,22 @@ const getByName = async (user: UserLogin): Promise<User[]> => {
   return data as User[];
 };
 
+const createProduct = async (product: ProductInterface): Promise<Product> => {
+  const { name, amount } = product;
+  const [result] = await connection.execute<ResultSetHeader>(
+    'INSERT INTO Trybesmith.Products (name, amount ) VALUES (?, ?)', 
+    [name, amount],
+  );
+  
+  const { insertId: id } = result;
+
+  const isertedProduct: Product = { id, name, amount };
+
+  return isertedProduct;
+};
+
 export default {
   createUser,
   getByName,
+  createProduct,
 };

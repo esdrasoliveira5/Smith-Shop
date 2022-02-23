@@ -1,7 +1,7 @@
 import StatusCode from '../enums/StatusCode';
-import { ResponseInterface } from '../Interface/ResponseInterface';
+import { ResponseInterfaceError } from '../Interface/ResponseInterface';
 
-const userNameValidation = (userName: string): ResponseInterface | void => {
+const userNameValidation = (userName: string): ResponseInterfaceError | void => {
   if (userName === undefined) {
     return { status: StatusCode.BAD_REQUEST, response: { error: 'Username is required' } };
   }

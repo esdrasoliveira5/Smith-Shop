@@ -1,7 +1,7 @@
 import StatusCode from '../enums/StatusCode';
-import { ResponseInterface } from '../Interface/ResponseInterface';
+import { ResponseInterfaceError } from '../Interface/ResponseInterface';
 
-const levelValidation = (level: number): ResponseInterface | void => {
+const levelValidation = (level: number): ResponseInterfaceError | void => {
   if (level === undefined) {
     return { status: StatusCode.BAD_REQUEST, response: { error: 'Level is required' } };
   }

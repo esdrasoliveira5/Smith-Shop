@@ -1,7 +1,7 @@
 import StatusCode from '../enums/StatusCode';
-import { ResponseInterface } from '../Interface/ResponseInterface';
+import { ResponseInterfaceError } from '../Interface/ResponseInterface';
 
-const classeValidation = (classe: string): ResponseInterface | void => {
+const classeValidation = (classe: string): ResponseInterfaceError | void => {
   if (classe === undefined) {
     return { status: StatusCode.BAD_REQUEST, response: { error: 'Classe is required' } };
   }

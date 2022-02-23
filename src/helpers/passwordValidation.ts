@@ -1,7 +1,7 @@
 import StatusCode from '../enums/StatusCode';
-import { ResponseInterface } from '../Interface/ResponseInterface';
+import { ResponseInterfaceError } from '../Interface/ResponseInterface';
 
-const passwordValidation = (password: string): ResponseInterface | void => {
+const passwordValidation = (password: string): ResponseInterfaceError | void => {
   if (password === undefined) {
     return { status: StatusCode.BAD_REQUEST, response: { error: 'Password is required' } };
   }

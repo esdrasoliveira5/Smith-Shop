@@ -9,6 +9,7 @@ app.use(express.json());
 
 app.post('/users', controllers.createUser);
 app.post('/login', controllers.getByName);
+app.post('/products', controllers.createProduct);
 
 app.use(HandleError.HandleError);
 
