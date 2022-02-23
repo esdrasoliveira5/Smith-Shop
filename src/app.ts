@@ -8,6 +8,7 @@ const app = express();
 app.use(express.json());
 
 app.post('/users', controllers.createUser);
+app.post('/login', controllers.getByName);
 
 app.use(HandleError.HandleError);
 

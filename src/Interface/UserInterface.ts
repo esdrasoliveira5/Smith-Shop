@@ -1,8 +1,11 @@
-export interface UserInterface {
+export interface UserLogin {
   username: string,
-  classe: string,
-  level: number,
   password: string
+}
+
+export interface UserInterface extends UserLogin{
+  classe: string,
+  level: number
 }
 
 export interface User extends UserInterface {

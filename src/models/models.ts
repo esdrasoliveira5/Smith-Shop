@@ -2,7 +2,7 @@ import { ResultSetHeader } from 'mysql2';
 
 import connection from './connection';
 
-import { UserInterface, User } from '../Interface/UserInterface';
+import { UserInterface, User, UserLogin } from '../Interface/UserInterface';
 
 const createUser = async (user: UserInterface): Promise<UserInterface> => {
   const { username, classe, level, password } = user;
@@ -18,6 +18,14 @@ const createUser = async (user: UserInterface): Promise<UserInterface> => {
   return insertedUser;
 };
 
+const getByName = async (user: UserLogin): Promise<User[]> => {
+  const { username, password } = user;
+  const query = 'SELECT * FROM Trybesmith.Users WHERE username = ? AND password = ?';
+  const [data] = await connection.execute(query, [username, password]);
+  return data;
+};
+
 export default {
   createUser,
+  getByName,
 };

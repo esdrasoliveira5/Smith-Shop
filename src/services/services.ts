@@ -4,7 +4,7 @@ import levelValidation from '../helpers/levelValidation';
 import passwordValidation from '../helpers/passwordValidation';
 import tokenGenerate from '../helpers/tokenGenerate';
 import userNameValidation from '../helpers/userNameValidation';
-import { UserInterface } from '../Interface/UserInterface';
+import { UserInterface, UserLogin } from '../Interface/UserInterface';
 import models from '../models/models';
 
 const createUser = async ({ username, classe, level, password } : UserInterface) => {
@@ -23,6 +23,23 @@ const createUser = async ({ username, classe, level, password } : UserInterface)
   return { status: StatusCode.CREATED, response: token };
 };
 
+const getByName = async ({ username, password } : UserLogin) => {
+  const usernameV = userNameValidation(username);
+  const passwordV = passwordValidation(password);
+  if (usernameV !== true) return usernameV;
+  if (passwordV !== true) return passwordV;
+
+  const response = await models.getByName({ username, password });
+  
+  if (response.length === 0) {
+    return { status: 404, response: { error: 'Username or password invalid' } };
+  }
+  const token = tokenGenerate(username);
+  
+  return { status: StatusCode.OK, response: token };
+};
+
 export default {
   createUser,
+  getByName,
 };

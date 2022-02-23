@@ -10,6 +10,15 @@ const createUser = async (req: Request, res: Response) => {
   return res.status(status).json(response);
 };
 
+const getByName = async (req: Request, res: Response) => {
+  const { username, password } :UserInterface = req.body;
+
+  const { status, response } = await services.getByName({ username, password });
+  
+  return res.status(status).json(response);
+};
+
 export default {
   createUser,
+  getByName,
 };
