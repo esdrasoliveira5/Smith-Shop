@@ -4,6 +4,7 @@ import classeValidation from '../helpers/classeValidation';
 import levelValidation from '../helpers/levelValidation';
 import nameValidation from '../helpers/nameValidation';
 import passwordValidation from '../helpers/passwordValidation';
+import productsValidation from '../helpers/productsValidation';
 import tokenGenerate from '../helpers/tokenGenerate';
 import tokenValidation from '../helpers/tokenValidation';
 import userNameValidation from '../helpers/userNameValidation';
@@ -13,6 +14,7 @@ import {
   ResponseInterfaceProduct, 
   ResponseInterfaceToken,
   ResponseInterfaceProducts,
+  ResponseInterfaceOrder,
 } from '../Interface/ResponseInterface';
 import { UserInterface, UserLogin } from '../Interface/UserInterface';
 import models from '../models/models';
@@ -56,7 +58,7 @@ Promise<ResponseInterfaceError | ResponseInterfaceProduct> => {
   const tokenV = await tokenValidation(token);
   const nameV = nameValidation(name);
   const amountV = amountValidation(amount);
-  if (tokenV) return tokenV;
+  if ('status' in tokenV) return tokenV;
   if (nameV) return nameV;
   if (amountV) return amountV;
   
@@ -67,11 +69,27 @@ Promise<ResponseInterfaceError | ResponseInterfaceProduct> => {
 const getProducts = async (token: string | undefined):
 Promise<ResponseInterfaceError | ResponseInterfaceProducts> => {
   const tokenV = await tokenValidation(token);
-  if (tokenV) return tokenV;
+  if ('status' in tokenV) return tokenV;
 
   const response = await models.getProducts();
   
   return { status: StatusCode.OK, response };
+};
+
+const createOrder = async (token: string | undefined, products: number[]):
+Promise<ResponseInterfaceError | ResponseInterfaceOrder> => {
+  const tokenV = await tokenValidation(token);
+  const productsV = productsValidation(products);
+
+  if ('status' in tokenV) return tokenV;
+  if (productsV) return productsV;
+
+  const response = await models.createOrder(tokenV.id);
+  
+  products.forEach(async (productId) => {
+    await models.updateProduct(response.id, productId);
+  });
+  return { status: StatusCode.CREATED, response: { order: { userId: response.userId, products } } };
 };
 
 export default {
@@ -79,4 +97,5 @@ export default {
   getByName,
   createProduct,
   getProducts,
+  createOrder,
 };

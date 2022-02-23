@@ -26,3 +26,11 @@ export interface ResponseInterfaceProduct extends ResponseInterface {
 export interface ResponseInterfaceProducts extends ResponseInterface {
   response: ProductOrder[]
 }
+export interface ResponseInterfaceOrder extends ResponseInterface {
+  response: {
+    order: {
+      userId: number,
+      products: number[]
+    }
+  }
+}

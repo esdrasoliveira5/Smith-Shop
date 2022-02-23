@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { IncomingHttpHeaders } from 'http';
+import { OrderProducts } from '../Interface/OrderInterface';
 import { ProductInterface } from '../Interface/ProductInterface';
 import { UserInterface } from '../Interface/UserInterface';
 import services from '../services/services';
@@ -37,9 +38,19 @@ const getProducts = async (req: Request, res: Response) => {
   return res.status(status).json(response);
 };
 
+const createOrder = async (req: Request, res: Response) => {
+  const { authorization }: IncomingHttpHeaders | undefined = req.headers;
+  const { products }: OrderProducts = req.body;
+
+  const { status, response } = await services.createOrder(authorization, products);
+  
+  return res.status(status).json(response);
+};
+
 export default {
   createUser,
   getByName,
   createProduct,
   getProducts,
+  createOrder,
 };

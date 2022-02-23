@@ -11,6 +11,7 @@ app.post('/users', controllers.createUser);
 app.post('/login', controllers.getByName);
 app.post('/products', controllers.createProduct);
 app.get('/products', controllers.getProducts);
+app.post('/orders', controllers.createOrder);
 
 app.use(HandleError.HandleError);
 

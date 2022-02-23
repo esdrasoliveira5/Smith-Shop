@@ -4,6 +4,7 @@ import connection from './connection';
 
 import { UserInterface, User, UserLogin } from '../Interface/UserInterface';
 import { Product, ProductInterface, ProductOrder } from '../Interface/ProductInterface';
+import { Order } from '../Interface/OrderInterface';
 
 const createUser = async (user: UserInterface): Promise<UserInterface> => {
   const { username, classe, level, password } = user;
@@ -45,9 +46,29 @@ const getProducts = async (): Promise<ProductOrder[]> => {
   return data as ProductOrder[];
 };
 
+const createOrder = async (userId: number): Promise<Order> => {
+  const [result] = await connection.execute<ResultSetHeader>(
+    'INSERT INTO Trybesmith.Orders (userId ) VALUES (?)', 
+    [userId],
+  );
+  
+  const { insertId: id } = result;
+
+  const isertedOrder: Order = { id, userId };
+
+  return isertedOrder;
+};
+
+const updateProduct = async (order: number, productId: number) => {
+  const query = 'UPDATE Trybesmith.Products SET orderId = ? WHERE id = ?';
+  await connection.execute<ResultSetHeader>(query, [order, productId]);
+};
+
 export default {
   createUser,
   getByName,
   createProduct,
   getProducts,
+  createOrder,
+  updateProduct,
 };
