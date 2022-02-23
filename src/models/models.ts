@@ -3,7 +3,7 @@ import { ResultSetHeader } from 'mysql2';
 import connection from './connection';
 
 import { UserInterface, User, UserLogin } from '../Interface/UserInterface';
-import { Product, ProductInterface } from '../Interface/ProductInterface';
+import { Product, ProductInterface, ProductOrder } from '../Interface/ProductInterface';
 
 const createUser = async (user: UserInterface): Promise<UserInterface> => {
   const { username, classe, level, password } = user;
@@ -40,8 +40,14 @@ const createProduct = async (product: ProductInterface): Promise<Product> => {
   return isertedProduct;
 };
 
+const getProducts = async (): Promise<ProductOrder[]> => {
+  const [data] = await connection.execute('SELECT * FROM Trybesmith.Products');
+  return data as ProductOrder[];
+};
+
 export default {
   createUser,
   getByName,
   createProduct,
+  getProducts,
 };

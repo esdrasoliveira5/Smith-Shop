@@ -1,4 +1,4 @@
-import { Product } from './ProductInterface';
+import { Product, ProductOrder } from './ProductInterface';
 
 export interface ResponseInterface{
   status: number,
@@ -21,4 +21,8 @@ export interface ResponseInterfaceProduct extends ResponseInterface {
   response: {
     item: Product
   },
+}
+
+export interface ResponseInterfaceProducts extends ResponseInterface {
+  response: ProductOrder[]
 }

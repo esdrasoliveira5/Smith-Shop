@@ -12,6 +12,7 @@ import {
   ResponseInterfaceError, 
   ResponseInterfaceProduct, 
   ResponseInterfaceToken,
+  ResponseInterfaceProducts,
 } from '../Interface/ResponseInterface';
 import { UserInterface, UserLogin } from '../Interface/UserInterface';
 import models from '../models/models';
@@ -63,8 +64,19 @@ Promise<ResponseInterfaceError | ResponseInterfaceProduct> => {
   return { status: StatusCode.CREATED, response: { item: response } };
 };
 
+const getProducts = async (token: string | undefined):
+Promise<ResponseInterfaceError | ResponseInterfaceProducts> => {
+  const tokenV = await tokenValidation(token);
+  if (tokenV) return tokenV;
+
+  const response = await models.getProducts();
+  
+  return { status: StatusCode.OK, response };
+};
+
 export default {
   createUser,
   getByName,
   createProduct,
+  getProducts,
 };

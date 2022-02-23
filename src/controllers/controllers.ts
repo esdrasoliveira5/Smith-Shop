@@ -29,8 +29,17 @@ const createProduct = async (req: Request, res: Response) => {
   return res.status(status).json(response);
 };
 
+const getProducts = async (req: Request, res: Response) => {
+  const { authorization }: IncomingHttpHeaders | undefined = req.headers;
+
+  const { status, response } = await services.getProducts(authorization);
+  
+  return res.status(status).json(response);
+};
+
 export default {
   createUser,
   getByName,
   createProduct,
+  getProducts,
 };
