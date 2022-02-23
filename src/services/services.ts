@@ -30,15 +30,12 @@ const getByName = async ({ username, password } : UserLogin) => {
   if (passwordV) return passwordV;
 
   const response = await models.getByName({ username, password });
-  console.log(!response);
-  console.log(typeof response);
-  
   if (response.length === 0) {
-    return { status: 404, response: { error: 'Username or password invalid' } };
+    return { status: StatusCode.UNAUTHORIZED, response: { error: 'Username or password invalid' } };
   }
   const token = tokenGenerate(username);
   
-  return { status: StatusCode.OK, response: token };
+  return { status: StatusCode.OK, response: { token } };
 };
 
 export default {
