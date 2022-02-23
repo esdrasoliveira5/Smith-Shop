@@ -34,3 +34,11 @@ export interface ResponseInterfaceOrder extends ResponseInterface {
     }
   }
 }
+
+export interface ResponseInterfaceOrderId extends ResponseInterface {
+  response: {
+    id: string,
+    userId: number,
+    products: number[],
+  }
+}

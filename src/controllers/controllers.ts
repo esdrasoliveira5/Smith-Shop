@@ -47,10 +47,20 @@ const createOrder = async (req: Request, res: Response) => {
   return res.status(status).json(response);
 };
 
+const getOrderById = async (req: Request<{ id: string }>, res: Response) => {
+  const { authorization }: IncomingHttpHeaders | undefined = req.headers;
+  const { id } = req.params;
+
+  const { status, response } = await services.getOrderById(authorization, id);
+  
+  return res.status(status).json(response);
+};
+
 export default {
   createUser,
   getByName,
   createProduct,
   getProducts,
   createOrder,
+  getOrderById,
 };

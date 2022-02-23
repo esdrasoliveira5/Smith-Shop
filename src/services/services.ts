@@ -15,6 +15,7 @@ import {
   ResponseInterfaceToken,
   ResponseInterfaceProducts,
   ResponseInterfaceOrder,
+  ResponseInterfaceOrderId,
 } from '../Interface/ResponseInterface';
 import { UserInterface, UserLogin } from '../Interface/UserInterface';
 import models from '../models/models';
@@ -92,10 +93,25 @@ Promise<ResponseInterfaceError | ResponseInterfaceOrder> => {
   return { status: StatusCode.CREATED, response: { order: { userId: response.userId, products } } };
 };
 
+const getOrderById = async (token: string | undefined, id: string):
+Promise<ResponseInterfaceError | ResponseInterfaceOrderId> => {
+  const tokenV = await tokenValidation(token);
+  if ('status' in tokenV) return tokenV;
+
+  const response = await models.getOrderById(id);
+  if (response.length === 0) {
+    return { status: StatusCode.NOT_FOUND, response: { error: 'Order not found' } };
+  }
+  const products = response.map((product) => product.id);
+
+  return { status: StatusCode.OK, response: { id, userId: tokenV.id, products } };
+};
+
 export default {
   createUser,
   getByName,
   createProduct,
   getProducts,
   createOrder,
+  getOrderById,
 };
