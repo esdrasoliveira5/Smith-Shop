@@ -7,19 +7,14 @@
   - [Instalação](#Instalação)
   - [Instruções para iniciar o projeto](#Intruções-para-iniciar-o-projeto)
 - [Documentação](#Documentação)
-  - [Verifica o estado da Api](#Verifica-o-estado-da-Api)
+  - [Verificar o estado da Api](#Verificar-o-estado-da-Api)
   - [Registrar usuário](#Registrar-usuário)
-  - [Login](#Login) 
-  - [Lista todos os usuário](#Lista-todos-os-usuário)
-  - [Lista um usuário](#Lista-um-usuário)
-  - [Cria uma categoria](#Cria-uma-categoria)
-  - [Lista todas as categorias](#Lista-todas-as-categorias)
-  - [Editar um usuário](#Editar-um-usuário)
-  - [Lista todos os Blogposts](#Lista-todos-os-Blogposts)
-  - [Lista um Blogpost pelo id](#Lista-um-Blogpost-pelo-id)
-  - [Atualiza um Blogpost pelo id](#Atualiza-um-Blogpost-pelo-id)
-  - [Deleta um BlogPost](#Deleta-um-BlogPost)
-  - [Pesquisa por um BlogPost](#Pesquisa-por-um-BlogPost)
+  - [Logar usuário](#Logar-usuário) 
+  - [Cadastrar um produto](#Cadastrar-um-produto)
+  - [Listar todos os produtos](#Listar-todos-os-produtos)
+  - [Cadastrar um pedido](#Cadastrar-um-pedido)
+  - [Consultar-um-pedido](#Consultar-um-pedido)
+  - [Listar todos os pedidos](#Listar-todos-os-pedidos)
 
 
 <br>
@@ -64,7 +59,7 @@
 
 <br/>
 
-### **Verifica o estado da Api**
+### **Verificar o estado da Api**
 ##### `GET` /health
 <br/>
 
@@ -102,7 +97,7 @@
     ```
 <br/>
 
-### **Login** 
+### **Logar usuário** 
 ##### `POST` /login
   <br/>
 
@@ -124,7 +119,7 @@
     ```
   <br/>
 
-### **Cadastra um produto**
+### **Cadastrar um produto**
 ##### `POST` /products
   <br/>
 
@@ -156,7 +151,7 @@
     ```
   <br/>
 
-### **Lista todos os produtos**
+### **Listar todos os produtos**
 ##### `GET` /products
   <br/>
 
@@ -188,7 +183,7 @@
     ```
   <br/>
 
-### **Cadastra um pedido**
+### **Cadastrar um pedido**
 ##### `POST` /orders
   <br/>
 
@@ -220,7 +215,7 @@
     ```
   <br/>
 
-### **Consulta um pedido**
+### **Consultar um pedido**
 ##### `GET` /orders/:id
   <br/>
 
@@ -243,7 +238,7 @@
     ```
   <br/>
 
-### **Lista todos os pedidos**
+### **Listar todos os pedidos**
 ##### `GET` /orders
   <br/>
 
