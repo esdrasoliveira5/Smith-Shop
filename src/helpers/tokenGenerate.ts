@@ -3,7 +3,7 @@ import jwt, { SignOptions } from 'jsonwebtoken';
 
 dotenv.config();
 
-const secret = 'secrete123';
+const secret = process.env.JWT_SECRET as string;
 const jwtConfig: SignOptions = { expiresIn: '7d', algorithm: 'HS256' };
 
 const tokenGenerate = (username: string, password: string): string => {

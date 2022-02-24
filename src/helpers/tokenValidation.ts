@@ -8,7 +8,7 @@ import models from '../models/models';
 
 dotenv.config();
 
-const secret = 'secrete123';
+const secret = process.env.JWT_SECRET as string;
 export interface TokenInterface {
   data: {
     username: string;
