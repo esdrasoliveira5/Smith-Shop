@@ -7,6 +7,7 @@ const app = express();
 
 app.use(express.json());
 
+app.get('/health', controllers.getHealth);
 app.post('/users', controllers.createUser);
 app.post('/login', controllers.getByName);
 app.post('/products', controllers.createProduct);

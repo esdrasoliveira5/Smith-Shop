@@ -5,6 +5,10 @@ import { ProductInterface } from '../Interface/ProductInterface';
 import { UserInterface } from '../Interface/UserInterface';
 import services from '../services/services';
 
+const getHealth = async (req: Request, res: Response) => res.status(200).json({
+  message: 'Api Online!!',
+});
+
 const createUser = async (req: Request, res: Response) => {
   const { username, classe, level, password } :UserInterface = req.body;
 
@@ -65,6 +69,7 @@ const getAllOrders = async (req: Request<{ id: string }>, res: Response) => {
 };
 
 export default {
+  getHealth,
   createUser,
   getByName,
   createProduct,
