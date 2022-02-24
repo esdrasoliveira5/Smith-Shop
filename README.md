@@ -26,7 +26,7 @@
 
 ## Descrição
 
-**Objetivo**: O objetivo dessa aplicação, é manipular um banco de dados. Os conhecimentos aplicados foram:
+**Objetivo**: Este projeto, foi desenvolvido uma CRUD (Create, Read, Update e Delete) de itens medievais, no formato de uma API, utilizando Typescript.
 
 - Arquitetura REST;
 - Autenticações e Permissões com JWT;
